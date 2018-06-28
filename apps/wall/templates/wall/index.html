@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dojo jobs</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'wall/css/style.css' %}" />
+  </head>
+
+  <body>
+    <div class="main_container">
+      <div class="container">
+        <div class="top_container">
+<h4>Welcome, {{request.session.current_user}}!</h4>
+<a href="/logout" class="container">Logout</a>
+          <form action="{% url 'wall:logout' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Logout" class="btn btn-default btn-xs logout">
+          </form>
+        </div>
+
+
+        <div id="post_job">
+          <form action="{% url 'wall:add_job' %}" method="POST">
+            {% csrf_token %}
+            <textarea rows="5" cols="75" name="job" class="form-control" placeholder="Your job here..."></textarea><br>
+            <input type="submit" value="Post" class="btn btn-default btn-block post_btn"> 
+            
+          </form>
+        </div>
+
+        <hr>
+        
+        <h2>Recent jobs...</h2>
+        <div id="job">
+          {% for job in jobs %}
+            <div class="entry"><br>
+            <h5 class="job">{{job.post}}</h5>
+            <br>
+            <label class='job_info'><p><i>({{job.created_at|timesince}} ago)</i><p>
+
+            {% if secret.creator == current_user %}
+              <form action="{% url 'wall:delete_job' %}" method="POST">
+                <input type='hidden' name="job_id" value="{{job.id}}">
+                {% csrf_token %}
+                <input type="submit" value="Delete" class="btn btn-danger btn-xs">
+              </form>
+            {% endif %}
+
+
+           
+            </label>
+             
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

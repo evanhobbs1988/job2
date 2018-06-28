@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    
+    {% load static %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'login/css/style.css' %}" />
+
+
+  </head>
+<body>
+<div class="main_container">
+  <div class="container">
+    <div class="titles">
+      <h1>welcome to handy helper</h1> 
+    </div>
+    <h2>login</h2>
+    {% csrf_token %}
+    <p class="titles">email:</p><input type="text" name="email" class="form-control">
+    <p class="titles">password:</p><input type="text" name="password" class="form-control">
+      <br>
+    <input type="submit" value="Login" class="button">
+    <!-- register -->
+    <div class="register">
+      <h2 class="form_title">register</h2>
+      <form action="/register" method="POST">
+      <div class="form-group">
+        {% csrf_token %}
+        <p class="titles">first name</p><input type="text" name="first_name" class="form-control">
+        <p class="titles">last name</p><input  type="text" name="last_name" class="form-control">
+        <p class="titles">email</p><input type="text" name="email" class="form-control">
+        <p class="titles">password</p><input type="text" name="password" class="form-control">
+        <p class="titles">pasword confirm</p><input type="text" name="password_cf" class="form-control">
+          <br>
+          <br>
+
+        <input type="submit" value="Create Account" clas="button">
+      </div>
+      </form>
+      </div>
+      {% for message in messages %}
+        <ul>
+          <li>{{ message }}</li>
+        </ul>
+        {% endfor %}
+  </div>
+</div>
+
+</body>
+
+</html>
